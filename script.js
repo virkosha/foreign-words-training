@@ -86,21 +86,21 @@ const wordCards = [{
     }
 ]
 
-//генерирую карточки в режиме "Тренировки" по порядку
+//генерирую слова по порядку в карточку в режиме "Тренировки"
 function iterateArrayInOrder() {
     return wordCards[wordIndex];
 }
-//генерирую карточки в режиме "Тренировки" рандомно по кнопке "Перемешать слова"
+
+//генерирую слова рандомно по кнопке "Перемешать слова" в режиме "Тренировки" 
 function iterateArrayInRandom() {
     wordCards.sort(() => Math.random() - 0.5);
 }
 const btnMixing = document.querySelector('#shuffle-words');
 btnMixing.addEventListener('click', iterateArrayInRandom());
 
-
-insertFollowingWords(wordIndex);
+insertFollowingWords(wordCards);
 //функция вставки последующих слов
-function insertFollowingWords(wordIndex) {
+function insertFollowingWords(wordCards) {
     wordCurrent = iterateArrayInOrder();
     let foreignWord = wordCurrent.eng;
     let translationWord = wordCurrent.rus;
@@ -111,12 +111,11 @@ function insertFollowingWords(wordIndex) {
     exampleWordCotainer.textContent = exampleWord;
 }
 
-// листать слова с режиме Тренировка
+// листать слова в режиме Тренировка
 const arrowBack = document.querySelector('#back');
 const arrowNext = document.querySelector('#next');
 
 arrowBack.addEventListener('click', (event) => {
-    //покажи элемент массива-1  *индекс карточки
     wordIndex--;
     insertFollowingWords();
     wordNumber.textContent = --wordNumber.textContent;
@@ -126,7 +125,6 @@ arrowBack.addEventListener('click', (event) => {
 })
 
 arrowNext.addEventListener('click', (event) => {
-    //покажи элемент массива+1     *индекс карточки
     wordIndex++;
     insertFollowingWords();
     wordNumber.textContent = ++wordNumber.textContent;
@@ -178,7 +176,7 @@ let listRus = [];
 let examCards = document.querySelector('#exam-cards');
 
 
-//расположение карточек в рандомном порядке в режиме "Проверки знаний"
+//заполнения поля карточками в рандомном порядке в режиме "Проверки знаний"
 function spreadOutCardsInExamMode() {
     wordCards.forEach((elem) => {
         listEng.push(elem.eng);
@@ -194,7 +192,6 @@ function spreadOutCardsInExamMode() {
     })
 
     examCards.prepend(cardExam);
-    return examCards;
 }
 
 console.log(listEng);
