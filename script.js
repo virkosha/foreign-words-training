@@ -171,31 +171,49 @@ const btnExam = document.querySelector('#exam');
 //режим "Проверки знаний"
 let examMode = document.querySelector('#exam-mode');
 
-let listEng = [];
-let listRus = [];
+//создаю объект для хранения слов с переводом
+let dictionary = {};
 let examCards = document.querySelector('#exam-cards');
 
 
 //заполнения поля карточками в рандомном порядке в режиме "Проверки знаний"
 function spreadOutCardsInExamMode() {
     wordCards.forEach((elem) => {
-        listEng.push(elem.eng);
-        listRus.push(elem.rus);
-    })
-    let cardExam = document.createElement('div');
-    cardExam.classList.add('card');
-    listEng.forEach((elem) => {
-        cardExam.textContent = elem;
-    })
-    listRus.forEach((elem) => {
-        cardExam.textContent = elem;
+        //наблюдение: эти две строчки затирают друг друга. и в итогесрабатывает только последняя.и в карточки подставляются слова только одного языка
+        dictionary[elem.eng] = elem.rus;
+        dictionary[elem.rus] = elem.eng;
+
+
+        let cardExam = document.createElement('div');
+        cardExam.classList.add('card');
+        Object.keys(dictionary).forEach((xyz) => {
+            cardExam.textContent = xyz;
+
+        })
+        examCards.prepend(cardExam);
+
     })
 
-    examCards.prepend(cardExam);
+
 }
+console.log(dictionary);
 
-console.log(listEng);
-console.log(listRus);
+//логика игры в режиме Проверка знаний (сделать через делегирование)
+let cardClickOne;
+let cardClickTwo;
+examCards.addEventListener('click', (event) => {
+    if (!event.target.classList.contains('correct') && !examCards.classList.contains('correct')) {
+        event.target.classList.add('correct');
+
+        cardExamOne = event.target.textContent;
+
+    };
+
+
+
+})
+console.log(cardClickOne);
+
 
 btnExam.addEventListener('click', (event) => {
     examMode.classList.toggle('hidden');
