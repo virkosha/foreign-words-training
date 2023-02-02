@@ -179,40 +179,61 @@ let examCards = document.querySelector('#exam-cards');
 //заполнения поля карточками в рандомном порядке в режиме "Проверки знаний"
 function spreadOutCardsInExamMode() {
     wordCards.forEach((elem) => {
-        //наблюдение: эти две строчки затирают друг друга. и в итогесрабатывает только последняя.и в карточки подставляются слова только одного языка
+
+        let cardExamEng = document.createElement('div');
+        let cardExamRus = document.createElement('div');
+        cardExamEng.classList.add('card');
+        cardExamRus.classList.add('card');
+
+        cardExamEng.textContent = elem.eng;
+        cardExamRus.textContent = elem.rus;
+
+
+        examCards.prepend(cardExamEng);
+        examCards.prepend(cardExamRus);
+        //пока не рандомно, а за словом следует перевод
+    })
+}
+
+function creatingDictionary() {
+    wordCards.forEach((elem) => {
         dictionary[elem.eng] = elem.rus;
         dictionary[elem.rus] = elem.eng;
-
-
-        let cardExam = document.createElement('div');
-        cardExam.classList.add('card');
-        Object.keys(dictionary).forEach((xyz) => {
-            cardExam.textContent = xyz;
-
-        })
-        examCards.prepend(cardExam);
-
     })
-
-
 }
 console.log(dictionary);
 
 //логика игры в режиме Проверка знаний (сделать через делегирование)
 let cardClickOne;
 let cardClickTwo;
+
 examCards.addEventListener('click', (event) => {
-    if (!event.target.classList.contains('correct') && !examCards.classList.contains('correct')) {
+    if (cardClickOne === undefined) {
         event.target.classList.add('correct');
-
-        cardExamOne = event.target.textContent;
-
+        cardClickOne = event.target.textContent;
     };
 
+    if (cardClickOne !== undefined) {
+        cardClickTwo = event.target.textContent;
 
+        if (dictionary[cardClickOne] === cardClickTwo) {
+            event.target.classList.add('correct');
+            //event.currentTarget.classList.add('fade-out');
+            // cardClickTwo.classList.add('fade-out');
+        } else {
+            console.log('error')
+        }
 
+    }
+
+    console.log(cardClickOne);
+
+    function checkNumberCards(examCards) {
+        if (cardExam === null) {
+            console.log('Игра завершена');
+        }
+    }
 })
-console.log(cardClickOne);
 
 
 btnExam.addEventListener('click', (event) => {
