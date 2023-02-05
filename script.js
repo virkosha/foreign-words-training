@@ -201,7 +201,7 @@ function creatingDictionary() {
         dictionary[elem.rus] = elem.eng;
     })
 }
-console.log(dictionary);
+//console.log(dictionary);
 
 //логика игры в режиме Проверка знаний (сделать через делегирование)
 let cardClickOne;
@@ -221,6 +221,7 @@ examCards.addEventListener('click', (event) => {
             //event.currentTarget.classList.add('fade-out');
             // cardClickTwo.classList.add('fade-out');
         } else {
+            event.target.classList.add('wrong');
             console.log('error')
         }
 
@@ -229,7 +230,7 @@ examCards.addEventListener('click', (event) => {
     console.log(cardClickOne);
 
     function checkNumberCards(examCards) {
-        if (cardExam === null) {
+        if (cardExam === undefined) {
             console.log('Игра завершена');
         }
     }
