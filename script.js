@@ -184,6 +184,8 @@ function spreadOutCardsInExamMode() {
         let cardExamRus = document.createElement('div');
         cardExamEng.classList.add('card');
         cardExamRus.classList.add('card');
+        cardExamEng.setAttribute('id', cardExamEng.textContent);
+        cardExamRus.setAttribute('id', cardExamEng.textContent);
 
         cardExamEng.textContent = elem.eng;
         cardExamRus.textContent = elem.rus;
@@ -195,12 +197,12 @@ function spreadOutCardsInExamMode() {
     })
 }
 
-function creatingDictionary() {
-    wordCards.forEach((elem) => {
-        dictionary[elem.eng] = elem.rus;
-        dictionary[elem.rus] = elem.eng;
-    })
-}
+
+wordCards.forEach((elem) => {
+    dictionary[elem.eng] = elem.rus;
+    dictionary[elem.rus] = elem.eng;
+})
+
 //console.log(dictionary);
 
 //логика игры в режиме Проверка знаний (сделать через делегирование)
@@ -208,26 +210,35 @@ let cardClickOne;
 let cardClickTwo;
 
 examCards.addEventListener('click', (event) => {
+
     if (cardClickOne === undefined) {
         event.target.classList.add('correct');
-        cardClickOne = event.target.textContent;
-    };
+        cardClickOne = event.target;
 
-    if (cardClickOne !== undefined) {
-        cardClickTwo = event.target.textContent;
 
-        if (dictionary[cardClickOne] === cardClickTwo) {
-            event.target.classList.add('correct');
-            //event.currentTarget.classList.add('fade-out');
-            // cardClickTwo.classList.add('fade-out');
+    } else {
+        cardClickTwo = event.target;
+
+        console.log(cardClickOne);
+        console.log(cardClickTwo);
+
+        if (dictionary[cardClickOne.textContent] === cardClickTwo.textContent) {
+            cardClickTwo.classList.add('correct');
+            cardClickOne.classList.add('fade-out');
+            cardClickTwo.classList.add('fade-out');
+            cardClickOne = undefined;
+            cardClickTwo = undefined;
         } else {
-            event.target.classList.add('wrong');
-            console.log('error')
-        }
 
+            cardClickTwo.classList.add('wrong');
+            setTimeout(() => {
+                cardClickTwo.classList.remove('wrong');
+
+            }, 1500);
+
+        }
     }
 
-    console.log(cardClickOne);
 
     function checkNumberCards(examCards) {
         if (cardExam === undefined) {
