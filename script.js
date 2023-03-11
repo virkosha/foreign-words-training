@@ -238,33 +238,34 @@ examCards.addEventListener('click', (event) => {
 
         }
     }
-
-
-    function checkNumberCards(examCards) {
-        if (cardExam === undefined) {
-            console.log('Игра завершена');
-        }
+})
+wordCards.forEach((elem) => {
+    if (elem.classList.contains('fade-out') === true) {
+        console.log('Игра завершена');
     }
+    console.log('ха-аха-ха');
+
+
 })
 
+/*
+            btnExam.addEventListener('click', (event) => {
+                examMode.classList.toggle('hidden');
+                studyMode.classList.toggle('hidden');
+                studyCards.classList.toggle('hidden');
+                spreadOutCardsInExamMode();
 
-btnExam.addEventListener('click', (event) => {
-    examMode.classList.toggle('hidden');
-    studyMode.classList.toggle('hidden');
-    studyCards.classList.toggle('hidden');
-    spreadOutCardsInExamMode();
+                
+                 timeId = setInterval(() => {
+                      let [minutes, seconds] = time.textContent.split(':').map(Number);
 
-    /* 
-     timeId = setInterval(() => {
-          let [minutes, seconds] = time.textContent.split(':').map(Number);
+                      if (seconds < 59) {
+                          seconds++;
+                      } else {
+                          minutes++;
+                          seconds = 0;
+                      }
 
-          if (seconds < 59) {
-              seconds++;
-          } else {
-              minutes++;
-              seconds = 0;
-          }
-
-          time.textContent = `${format(minutes)}:${format(seconds)}`;
-      }, 1000);*/
-})
+                      time.textContent = `${format(minutes)}:${format(seconds)}`;
+                  }, 1000);
+            }) */
