@@ -184,8 +184,8 @@ function spreadOutCardsInExamMode() {
         let cardExamRus = document.createElement('div');
         cardExamEng.classList.add('card');
         cardExamRus.classList.add('card');
-        cardExamEng.setAttribute('id', cardExamEng.textContent);
-        cardExamRus.setAttribute('id', cardExamEng.textContent);
+        // cardExamEng.setAttribute('id', cardExamEng.textContent);
+        // cardExamRus.setAttribute('id', cardExamEng.textContent);
 
         cardExamEng.textContent = elem.eng;
         cardExamRus.textContent = elem.rus;
@@ -208,64 +208,68 @@ wordCards.forEach((elem) => {
 //логика игры в режиме Проверка знаний (сделать через делегирование)
 let cardClickOne;
 let cardClickTwo;
+let card = document.querySelector('.card');
+console.log(card);
 
 examCards.addEventListener('click', (event) => {
-
-    if (cardClickOne === undefined) {
-        event.target.classList.add('correct');
-        cardClickOne = event.target;
+    //проверяем, что клик приходится на видимую карту
+    if (event.target.textContent !== undefined && event.target.classList.contains('fade-out') === false) {
 
 
-    } else {
-        cardClickTwo = event.target;
+        if (cardClickOne === undefined) {
+            event.target.classList.add('correct');
+            cardClickOne = event.target;
 
-        console.log(cardClickOne);
-        console.log(cardClickTwo);
 
-        if (dictionary[cardClickOne.textContent] === cardClickTwo.textContent) {
-            cardClickTwo.classList.add('correct');
-            cardClickOne.classList.add('fade-out');
-            cardClickTwo.classList.add('fade-out');
-            cardClickOne = undefined;
-            cardClickTwo = undefined;
         } else {
+            cardClickTwo = event.target;
 
-            cardClickTwo.classList.add('wrong');
-            setTimeout(() => {
-                cardClickTwo.classList.remove('wrong');
+            console.log(cardClickOne);
+            console.log(cardClickTwo);
 
-            }, 1500);
+            if (dictionary[cardClickOne.textContent] === cardClickTwo.textContent) {
+                cardClickTwo.classList.add('correct');
+                cardClickOne.classList.add('fade-out');
+                cardClickTwo.classList.add('fade-out');
+                cardClickOne = undefined;
+                cardClickTwo = undefined;
+            } else {
 
+                cardClickTwo.classList.add('wrong');
+                setTimeout(() => {
+                    cardClickTwo.classList.remove('wrong');
+                    //examCards.removeEventListener('click', (event));
+                }, 1500);
+
+            }
+        }
+    }
+
+    function checkNumberCards(examCards) {
+        if (cardExam === undefined) {
+            console.log('Игра завершена');
         }
     }
 })
-wordCards.forEach((elem) => {
-    if (elem.classList.contains('fade-out') === true) {
-        console.log('Игра завершена');
-    }
-    console.log('ха-аха-ха');
 
 
+btnExam.addEventListener('click', (event) => {
+    examMode.classList.toggle('hidden');
+    studyMode.classList.toggle('hidden');
+    studyCards.classList.toggle('hidden');
+    spreadOutCardsInExamMode();
+
+    /* 
+     timeId = setInterval(() => {
+          let [minutes, seconds] = time.textContent.split(':').map(Number);
+
+          if (seconds < 59) {
+              seconds++;
+          } else {
+              minutes++;
+              seconds = 0;
+          }
+
+          time.textContent = `${format(minutes)}:${format(seconds)}`;
+      }, 1000);*/
 })
-
-/*
-            btnExam.addEventListener('click', (event) => {
-                examMode.classList.toggle('hidden');
-                studyMode.classList.toggle('hidden');
-                studyCards.classList.toggle('hidden');
-                spreadOutCardsInExamMode();
-
-                
-                 timeId = setInterval(() => {
-                      let [minutes, seconds] = time.textContent.split(':').map(Number);
-
-                      if (seconds < 59) {
-                          seconds++;
-                      } else {
-                          minutes++;
-                          seconds = 0;
-                      }
-
-                      time.textContent = `${format(minutes)}:${format(seconds)}`;
-                  }, 1000);
-            }) */
