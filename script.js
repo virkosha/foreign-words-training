@@ -236,12 +236,16 @@ examCards.addEventListener('click', (event) => {
             } else {
 
                 cardClickTwo.classList.add('wrong');
-                setTimeout(() => {
+                //examCards.removeEventListener('click', (event));
+
+                const timerWrong = setTimeout(() => {
                     cardClickTwo.classList.remove('wrong');
-                    //examCards.removeEventListener('click', (event));
-                }, 1500);
+                }, 3000);
+
+
 
             }
+
         }
     }
 
