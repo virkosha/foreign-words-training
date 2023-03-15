@@ -208,10 +208,11 @@ wordCards.forEach((elem) => {
 //логика игры в режиме Проверка знаний (сделать через делегирование)
 let cardClickOne;
 let cardClickTwo;
-let card = document.querySelector('.card');
-console.log(card);
 
 examCards.addEventListener('click', (event) => {
+    /*Альтернативный вариант как повесить на карточку обработчик:
+    cards.querySelectorAll('.card').forEach((element) => element.addEventListener(....)); */
+
     //проверяем, что клик приходится на видимую карту
     if (event.target.textContent !== undefined && event.target.classList.contains('fade-out') === false) {
 
@@ -235,7 +236,7 @@ examCards.addEventListener('click', (event) => {
                 cardClickTwo = undefined;
             } else {
 
-                cardClickTwo.classList.add('wrong');
+                event.target.classList.add('wrong');
 
 
                 const timerWrong = setTimeout(() => {
@@ -245,12 +246,8 @@ examCards.addEventListener('click', (event) => {
 
 
         }
-    }
-
-    function checkNumberCards(examCards) {
-        if (cardExam === undefined) {
-            console.log('Игра завершена');
-        }
+    } else {
+        console.log('Игра завершена!')
     }
 })
 
