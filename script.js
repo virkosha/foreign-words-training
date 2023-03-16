@@ -209,48 +209,51 @@ wordCards.forEach((elem) => {
 let cardClickOne;
 let cardClickTwo;
 
-examCards.addEventListener('click', (event) => {
-    /*Альтернативный вариант как повесить на карточку обработчик:
-    cards.querySelectorAll('.card').forEach((element) => element.addEventListener(....)); */
+wordCards.querySelectorAll('.card').forEach((element) => {
+    element.addEventListener('click', (event) => {
+        /*Альтернативный вариант как повесить на карточку обработчик:
+        cards.querySelectorAll('.card').forEach((element) => element.addEventListener(....)); */
 
-    //проверяем, что клик приходится на видимую карту
-    if (event.target.textContent !== undefined && event.target.classList.contains('fade-out') === false) {
-
-
-        if (cardClickOne === undefined) {
-            event.target.classList.add('correct');
-            cardClickOne = event.target;
+        //проверяем, что клик приходится на видимую карту
+        if (event.target.textContent !== undefined && event.target.classList.contains('fade-out') === false) {
 
 
-        } else {
-            cardClickTwo = event.target;
+            if (cardClickOne === undefined) {
+                event.target.classList.add('correct');
+                cardClickOne = event.target;
 
-            console.log(cardClickOne);
-            console.log(cardClickTwo);
 
-            if (dictionary[cardClickOne.textContent] === cardClickTwo.textContent) {
-                cardClickTwo.classList.add('correct');
-                cardClickOne.classList.add('fade-out');
-                cardClickTwo.classList.add('fade-out');
-                cardClickOne = undefined;
-                cardClickTwo = undefined;
             } else {
+                cardClickTwo = event.target;
 
-                event.target.classList.add('wrong');
+                console.log(cardClickOne);
+                console.log(cardClickTwo);
+
+                if (dictionary[cardClickOne.textContent] === cardClickTwo.textContent) {
+                    cardClickTwo.classList.add('correct');
+                    cardClickOne.classList.add('fade-out');
+                    cardClickTwo.classList.add('fade-out');
+                    cardClickOne = undefined;
+                    cardClickTwo = undefined;
+                } else {
+
+                    event.target.classList.add('wrong');
+                    cardClickOne = undefined;
 
 
-                const timerWrong = setTimeout(() => {
-                    event.target.classList.remove('wrong');
-                }, 3000);
+                    const timerWrong = setTimeout(() => {
+                        event.target.classList.remove('wrong');
+                    }, 3000);
+                }
+
+
             }
-
-
+        } else {
+            console.log('Игра завершена!')
+            clearTime();
         }
-    } else {
-        console.log('Игра завершена!')
-    }
+    })
 })
-
 
 btnExam.addEventListener('click', (event) => {
     examMode.classList.toggle('hidden');
@@ -258,17 +261,33 @@ btnExam.addEventListener('click', (event) => {
     studyCards.classList.toggle('hidden');
     spreadOutCardsInExamMode();
 
-    /* 
-     timeId = setInterval(() => {
-          let [minutes, seconds] = time.textContent.split(':').map(Number);
-
-          if (seconds < 59) {
-              seconds++;
-          } else {
-              minutes++;
-              seconds = 0;
-          }
-
-          time.textContent = `${format(minutes)}:${format(seconds)}`;
-      }, 1000);*/
 })
+
+
+//время
+timerTimer = setInterval(() => {
+    let [minutes, seconds] = time.textContent.split(':').map(Number);
+
+    if (seconds < 59) {
+        seconds++;
+    } else {
+        minutes++;
+        seconds = 0;
+    }
+
+    time.textContent = `${format(minutes)}:${format(seconds)}`;
+}, 1000);
+
+//формат времени
+function format(val) {
+    if (val < 10) {
+        return `0${val}`;
+    }
+    return val;
+}
+
+//функция остановки таймера
+function clearTime() {
+    clearInterval(timerTimer);
+
+}
