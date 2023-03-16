@@ -209,52 +209,47 @@ wordCards.forEach((elem) => {
 let cardClickOne;
 let cardClickTwo;
 
-wordCards.querySelectorAll('.card').forEach((element) => {
+let MMM = document.querySelectorAll('.card');
+console.log(MMM);
+let n = examCards.querySelectorAll('.card').forEach((element) => {
+    console.log(n);
     element.addEventListener('click', (event) => {
         /*Альтернативный вариант как повесить на карточку обработчик:
         cards.querySelectorAll('.card').forEach((element) => element.addEventListener(....)); */
 
         //проверяем, что клик приходится на видимую карту
-        if (event.target.textContent !== undefined && event.target.classList.contains('fade-out') === false) {
+        if (element.classList.contains('fade-out') === false) {
 
+            //проверяем, что карточка первая
+            if (element.classList.contains('wrong') === false) {
+                cardClickOne = element;
 
-            if (cardClickOne === undefined) {
-                event.target.classList.add('correct');
-                cardClickOne = event.target;
-
-
+                cardClickOne.classList.add('correct');
             } else {
-                cardClickTwo = event.target;
-
-                console.log(cardClickOne);
-                console.log(cardClickTwo);
-
+                cardClickTwo = element;
                 if (dictionary[cardClickOne.textContent] === cardClickTwo.textContent) {
                     cardClickTwo.classList.add('correct');
                     cardClickOne.classList.add('fade-out');
                     cardClickTwo.classList.add('fade-out');
-                    cardClickOne = undefined;
-                    cardClickTwo = undefined;
                 } else {
-
-                    event.target.classList.add('wrong');
-                    cardClickOne = undefined;
-
-
+                    cardClickOne.classList.add('wrong');
+                    cardClickTwo.classList.add('wrong');
                     const timerWrong = setTimeout(() => {
-                        event.target.classList.remove('wrong');
+                        cardClickOne.classList.remove('wrong');
+                        cardClickTwo.classList.remove('wrong');
                     }, 3000);
                 }
-
-
+                element.classList.remove('correct');
+                element.classList.remove('wrong')
             }
+
         } else {
             console.log('Игра завершена!')
             clearTime();
         }
     })
-})
 
+})
 btnExam.addEventListener('click', (event) => {
     examMode.classList.toggle('hidden');
     studyMode.classList.toggle('hidden');
@@ -291,3 +286,4 @@ function clearTime() {
     clearInterval(timerTimer);
 
 }
+console.log(n);
