@@ -211,8 +211,8 @@ let cardClickTwo;
 
 let MMM = document.querySelectorAll('.card');
 console.log(MMM);
-let n = examCards.querySelectorAll('.card').forEach((element) => {
-    console.log(n);
+examCards.querySelectorAll('.card').forEach((element) => {
+
     element.addEventListener('click', (event) => {
         /*Альтернативный вариант как повесить на карточку обработчик:
         cards.querySelectorAll('.card').forEach((element) => element.addEventListener(....)); */
@@ -286,4 +286,3 @@ function clearTime() {
     clearInterval(timerTimer);
 
 }
-console.log(n);
